@@ -1,107 +1,83 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import { Menu, ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { useNavigationStore, type PageKey } from '@/lib/store';
+import { useState } from "react";
+import Link from "next/link";
+import { ChevronDown, Menu, X } from "lucide-react";
 
-const navLinks: { label: string; page: PageKey; serviceId?: string }[] = [
-  { label: 'Home', page: 'home' },
-  { label: 'About', page: 'about' },
-  { label: 'Services', page: 'services' },
-  { label: 'Markets', page: 'markets' },
-  { label: 'Vehicles', page: 'vehicles' },
-  { label: 'How It Works', page: 'how-it-works' },
-  { label: 'Contact', page: 'contact' },
-];
-
-const serviceDropdownItems: {
+type NavLink = {
   label: string;
-  page: PageKey;
-  serviceId: string;
-}[] = [
-  { label: 'Vehicle Sourcing', page: 'service-detail', serviceId: 'vehicle-sourcing' },
-  { label: 'Inspection & QA', page: 'service-detail', serviceId: 'inspection-qa' },
-  { label: 'Export & Compliance', page: 'service-detail', serviceId: 'export-compliance' },
-  { label: 'Shipping & Logistics', page: 'service-detail', serviceId: 'shipping-logistics' },
+  href: string;
+};
+
+const services: NavLink[] = [
+  { label: "Strategic Advisory", href: "#services" },
+  { label: "Market Entry", href: "#services" },
+  { label: "Investment Structuring", href: "#services" },
+  { label: "Project Execution", href: "#services" },
 ];
 
-function NavLogo() {
-  const navigate = useNavigationStore((s) => s.navigate);
+const mainLinks: NavLink[] = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Sectors", href: "#sectors" },
+  { label: "Insights", href: "#insights" },
+  { label: "Contact", href: "#contact" },
+];
+
+function NavItem({
+  href,
+  label,
+  onClick,
+}: {
+  href: string;
+  label: string;
+  onClick?: () => void;
+}) {
   return (
-    <button
-      onClick={() => navigate('home')}
-      className="flex items-center gap-3 shrink-0"
-      aria-label="SALA INVESTMENTS Home"
+    <Link
+      href={href}
+      onClick={onClick}
+      className="text-sm font-medium text-neutral-800 transition hover:text-black"
     >
-      <Image
-        src="/logo.png"
-        alt="Sala Investments Logo"
-        width={44}
-        height={44}
-        className="size-10 sm:size-11 object-contain"
-        priority
-      />
-      <div className="hidden sm:flex flex-col leading-none">
-        <span className="text-[15px] font-bold tracking-[-0.02em] text-white">
-          SALA INVESTMENTS
-        </span>
-        <span className="mt-0.5 text-[10px] font-medium tracking-wider uppercase text-white/70">
-          (Pty) Ltd
-        </span>
-      </div>
-    </button>
+      {label}
+    </Link>
   );
 }
 
-function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
+function ServicesDropdown({
+  isMobile = false,
+  onNavigate,
+}: {
+  isMobile?: boolean;
+  onNavigate?: () => void;
+}) {
   const [open, setOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const navigate = useNavigationStore((s) => s.navigate);
-  const currentPage = useNavigationStore((s) => s.currentPage);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setOpen(false), 200);
-  };
 
   if (isMobile) {
     return (
-      <div>
+      <div className="w-full">
         <button
-          onClick={() => setOpen(!open)}
-          className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
+          type="button"
+          onClick={() => setOpen((prev) => !prev)}
+          className="flex w-full items-center justify-between rounded-xl border border-neutral-200 px-4 py-3 text-left text-sm font-medium text-neutral-900"
         >
-          Services
+          <span>Services</span>
           <ChevronDown
-            className={`size-3.5 text-white/70 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+            className={`h-4 w-4 transition ${open ? "rotate-180" : ""}`}
           />
         </button>
+
         {open && (
-          <div className="ml-4 mt-1 flex flex-col border-l border-brand-gold/50 pl-4">
-            {serviceDropdownItems.map((item) => (
-              <button
-                key={item.serviceId}
-                onClick={() => {
-                  navigate(item.page, item.serviceId);
-                  setOpen(false);
-                }}
-                className="rounded-md px-3 py-2 text-left text-[13px] text-white/70 transition-colors hover:text-white"
+          <div className="mt-2 space-y-2 rounded-xl bg-neutral-50 p-3">
+            {services.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={onNavigate}
+                className="block rounded-lg px-3 py-2 text-sm text-neutral-700 transition hover:bg-white hover:text-black"
               >
                 {item.label}
-              </button>
+              </Link>
             ))}
           </div>
         )}
@@ -109,195 +85,115 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
     );
   }
 
-  const isActive = currentPage === 'services' || currentPage === 'service-detail';
-
   return (
     <div
       className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
     >
       <button
-        onClick={() => navigate('services')}
-        className={`flex items-center gap-1 rounded-md px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 ${
-          isActive
-            ? 'text-brand-gold'
-            : 'text-white hover:text-brand-gold'
-        }`}
+        type="button"
+        className="flex items-center gap-1 text-sm font-medium text-neutral-800 transition hover:text-black"
       >
-        Services
-        <ChevronDown
-          className={`size-3 text-white/70 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-        />
+        <span>Services</span>
+        <ChevronDown className="h-4 w-4" />
       </button>
 
-      <div
-        className={`absolute left-0 top-full pt-1.5 transition-all duration-200 ${
-          open
-            ? 'pointer-events-auto translate-y-0 opacity-100'
-            : 'pointer-events-none -translate-y-1 opacity-0'
-        }`}
-      >
-        <div className="w-52 rounded-md border border-[#E2E5EA] bg-white py-1 shadow-[0_4px_16px_rgba(11,29,53,0.08)]">
-          {serviceDropdownItems.map((item) => (
-            <button
-              key={item.serviceId}
-              onClick={() => {
-                navigate(item.page, item.serviceId);
-                setOpen(false);
-              }}
-              className="flex w-full items-center px-4 py-2.5 text-left text-[13px] text-white transition-colors hover:bg-white/10 hover:text-brand-gold"
-            >
-              {item.label}
-            </button>
-          ))}
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-3 w-64 rounded-2xl border border-neutral-200 bg-white p-3 shadow-xl">
+          <div className="space-y-1">
+            {services.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="block rounded-xl px-3 py-2 text-sm text-neutral-700 transition hover:bg-neutral-50 hover:text-black"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
-function DesktopNav() {
-  const navigate = useNavigationStore((s) => s.navigate);
-  const currentPage = useNavigationStore((s) => s.currentPage);
-
-  return (
-    <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main navigation">
-      {navLinks.map((link) => {
-        if (link.page === 'services') {
-          return <ServicesDropdown key={link.page} />;
-        }
-
-        const isActive = currentPage === link.page;
-
-        return (
-          <button
-            key={link.page}
-            onClick={() => navigate(link.page)}
-            className={`relative rounded-md px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 ${
-              isActive
-                ? 'text-brand-gold'
-                : 'text-white hover:text-brand-gold'
-            }`}
-          >
-            {link.label}
-          </button>
-        );
-      })}
-    </nav>
-  );
-}
-
-function MobileNav({ onClose }: { onClose: () => void }) {
-  const navigate = useNavigationStore((s) => s.navigate);
-  const currentPage = useNavigationStore((s) => s.currentPage);
-
-  const handleNavigate = (page: PageKey, serviceId?: string | null) => {
-    navigate(page, serviceId);
-    onClose();
-  };
-
-  return (
-    <nav className="flex flex-col gap-0.5 px-3 py-4" aria-label="Mobile navigation">
-      {navLinks.map((link) => {
-        if (link.page === 'services') {
-          return <ServicesDropdown key={link.page} isMobile />;
-        }
-
-        const isActive = currentPage === link.page;
-
-        return (
-          <button
-            key={link.page}
-            onClick={() => handleNavigate(link.page)}
-            className={`rounded-md px-3 py-2.5 text-left text-[13px] font-medium transition-colors ${
-              isActive
-                ? 'text-brand-gold'
-                : 'text-white hover:text-brand-gold'
-            }`}
-          >
-            {link.label}
-          </button>
-        );
-      })}
-
-      <div className="mt-5 border-t border-[#E2E5EA] pt-5">
-        <Button
-          className="w-full bg-brand-gold text-white hover:bg-brand-gold-light rounded-md text-[13px] font-medium shadow-sm"
-          onClick={() => handleNavigate('contact')}
-        >
-          Request Sourcing
-        </Button>
-      </div>
-    </nav>
-  );
-}
-
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navigate = useNavigationStore((s) => s.navigate);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 8);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const closeMobile = () => setMobileOpen(false);
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md transition-all duration-300 ${
-        scrolled
-          ? 'shadow-[0_1px_8px_rgba(11,29,53,0.08)]'
-          : ''
-      }`}
-    >
-      {/* Top brand accent line */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent" />
-      <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <NavLogo />
-        <DesktopNav />
-        <div className="flex items-center gap-3">
-          <Button
-            className="hidden rounded-md bg-brand-gold px-5 py-2.5 text-[13px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-brand-gold-light hover:shadow-md hover:-translate-y-0.5 lg:inline-flex"
-            onClick={() => navigate('contact')}
-          >
-            Request Sourcing
-          </Button>
+    <header className="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+        <Link href="#home" className="text-lg font-semibold tracking-tight text-black">
+          Sala Investments
+        </Link>
 
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden text-white hover:bg-white/10"
-                aria-label="Open navigation menu"
-              >
-                <Menu className="size-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] p-0">
-              <SheetHeader className="border-b border-[#E2E5EA] px-5 py-4">
-                <div className="flex items-center gap-2.5">
-                  <Image
-                    src="/logo.png"
-                    alt="Sala Investments Logo"
-                    width={32}
-                    height={32}
-                    className="size-8 object-contain"
-                  />
-                  <SheetTitle className="text-left text-[15px] font-bold tracking-[-0.02em] text-white">
-                    SALA INVESTMENTS
-                  </SheetTitle>
-                </div>
-              </SheetHeader>
-              <MobileNav onClose={() => setMobileOpen(false)} />
-            </SheetContent>
-          </Sheet>
+        <nav className="hidden items-center gap-8 md:flex">
+          {mainLinks.slice(0, 3).map((item) => (
+            <NavItem key={item.label} href={item.href} label={item.label} />
+          ))}
+
+          <ServicesDropdown />
+
+          {mainLinks.slice(3).map((item) => (
+            <NavItem key={item.label} href={item.href} label={item.label} />
+          ))}
+        </nav>
+
+        <div className="hidden md:block">
+          <Link
+            href="#contact"
+            className="rounded-full bg-black px-5 py-3 text-sm font-medium text-white transition hover:opacity-90"
+          >
+            Book Consultation
+          </Link>
         </div>
+
+        <button
+          type="button"
+          aria-label="Toggle navigation"
+          onClick={() => setMobileOpen((prev) => !prev)}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 md:hidden"
+        >
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+
+      {mobileOpen && (
+        <div className="border-t border-neutral-200 bg-white md:hidden">
+          <div className="mx-auto max-w-7xl space-y-3 px-6 py-4">
+            {mainLinks.slice(0, 3).map((item) => (
+              <NavItem
+                key={item.label}
+                href={item.href}
+                label={item.label}
+                onClick={closeMobile}
+              />
+            ))}
+
+            <ServicesDropdown isMobile onNavigate={closeMobile} />
+
+            {mainLinks.slice(3).map((item) => (
+              <NavItem
+                key={item.label}
+                href={item.href}
+                label={item.label}
+                onClick={closeMobile}
+              />
+            ))}
+
+            <Link
+              href="#contact"
+              onClick={closeMobile}
+              className="block rounded-full bg-black px-5 py-3 text-center text-sm font-medium text-white transition hover:opacity-90"
+            >
+              Book Consultation
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
