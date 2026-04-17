@@ -37,8 +37,6 @@ const serviceDropdownItems: {
 function NavLogo() {
   const navigate = useNavigationStore((s) => s.navigate);
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <button
       onClick={() => navigate('home')}
       className="flex items-center gap-3 shrink-0"
@@ -81,8 +79,6 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
 
   if (isMobile) {
     return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
       <div>
         <button
           onClick={() => setOpen(!open)}
@@ -116,8 +112,6 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
   const isActive = currentPage === 'services' || currentPage === 'service-detail';
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <div
       className="relative"
       onMouseEnter={handleMouseEnter}
@@ -168,8 +162,6 @@ function DesktopNav() {
   const currentPage = useNavigationStore((s) => s.currentPage);
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main navigation">
       {navLinks.map((link) => {
         if (link.page === 'services') {
@@ -179,8 +171,6 @@ function DesktopNav() {
         const isActive = currentPage === link.page;
 
         return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
           <button
             key={link.page}
             onClick={() => navigate(link.page)}
@@ -208,8 +198,6 @@ function MobileNav({ onClose }: { onClose: () => void }) {
   };
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <nav className="flex flex-col gap-0.5 px-3 py-4" aria-label="Mobile navigation">
       {navLinks.map((link) => {
         if (link.page === 'services') {
@@ -219,8 +207,6 @@ function MobileNav({ onClose }: { onClose: () => void }) {
         const isActive = currentPage === link.page;
 
         return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
           <button
             key={link.page}
             onClick={() => handleNavigate(link.page)}
@@ -257,14 +243,10 @@ export default function Navbar() {
       setScrolled(window.scrollY > 8);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-) => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <header
       className={`sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md transition-all duration-300 ${
         scrolled
@@ -317,6 +299,5 @@ export default function Navbar() {
         </div>
       </div>
     </header>
-  )
->redaeh/<  ;
+  );
 }
