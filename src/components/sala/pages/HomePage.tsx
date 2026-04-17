@@ -130,6 +130,8 @@ export default function HomePage() {
           1. HERO
           ══════════════════════════════════════════ */}
       <section className="relative flex min-h-[75vh] items-center justify-center overflow-hidden bg-brand-navy sm:min-h-[80vh]">
+  <div className="absolute inset-0 bg-gradient-to-br from-slate-950/70 via-slate-950/45 to-slate-900/35 pointer-events-none" />
+
         {/* Hero background image */}
         <div className="absolute inset-0">
           <Image src="/images/hero.png" alt="Car carrier ship at port transporting vehicles across Africa" fill className="object-cover" priority />
@@ -144,10 +146,10 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 backdrop-blur-sm px-4 py-1.5"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/5 backdrop-blur-sm/15 bg-white/10 backdrop-blur-sm px-4 py-1.5"
           >
             <div className="h-1.5 w-1.5 rounded-full bg-brand-gold" />
-            <span className="text-xs font-medium tracking-wider uppercase text-white/70">
+            <span className="text-xs font-medium tracking-wider uppercase text-white/85">
               Vehicle Sourcing &amp; Export
             </span>
           </motion.div>
@@ -166,7 +168,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 drop-shadow-[0_1px_4px_rgba(11,29,53,0.6)] sm:text-lg"
+            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/90 drop-shadow-[0_1px_4px_rgba(11,29,53,0.6)] sm:text-lg"
           >
             Specialist vehicle sourcing and export company connecting buyers across
             Africa with competitively priced, quality-assured vehicles from
@@ -345,7 +347,7 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 variants={fade}
               >
-                <div className="group rounded-lg border border-white/[0.06] bg-white/[0.03] p-5 transition-all duration-300 hover:border-brand-gold/25 hover:bg-white/[0.06] hover:shadow-[0_4px_20px_rgba(196,154,42,0.08)]">
+                <div className="group rounded-lg border border-white/70 bg-white/5 backdrop-blur-sm/[0.06] bg-white/[0.03] p-5 transition-all duration-300 hover:border-brand-gold/25 hover:bg-white/[0.06] hover:shadow-[0_4px_20px_rgba(196,154,42,0.08)]">
                   <div className="mb-4 flex size-10 items-center justify-center rounded-md bg-brand-gold/10 transition-colors duration-300 group-hover:bg-brand-gold/20">
                     <item.icon className="size-5 text-brand-gold" />
                   </div>
