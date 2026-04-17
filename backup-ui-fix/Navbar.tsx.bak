@@ -37,8 +37,6 @@ const serviceDropdownItems: {
 function NavLogo() {
   const navigate = useNavigationStore((s) => s.navigate);
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <button
       onClick={() => navigate('home')}
       className="flex items-center gap-3 shrink-0"
@@ -53,10 +51,10 @@ function NavLogo() {
         priority
       />
       <div className="hidden sm:flex flex-col leading-none">
-        <span className="text-[15px] font-bold tracking-[-0.02em] text-white">
+        <span className="text-[15px] font-bold tracking-[-0.02em] text-brand-navy">
           SALA INVESTMENTS
         </span>
-        <span className="mt-0.5 text-[10px] font-medium tracking-wider uppercase text-white/70">
+        <span className="mt-0.5 text-[10px] font-medium tracking-wider uppercase text-brand-grey">
           (Pty) Ltd
         </span>
       </div>
@@ -81,20 +79,18 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
 
   if (isMobile) {
     return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
       <div>
         <button
           onClick={() => setOpen(!open)}
-          className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
+          className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-[13px] font-medium text-brand-navy transition-colors hover:bg-brand-grey-pale"
         >
           Services
           <ChevronDown
-            className={`size-3.5 text-white/70 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+            className={`size-3.5 text-brand-grey transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
           />
         </button>
         {open && (
-          <div className="ml-4 mt-1 flex flex-col border-l border-brand-gold/50 pl-4">
+          <div className="ml-4 mt-1 flex flex-col border-l border-brand-gold/40 pl-4">
             {serviceDropdownItems.map((item) => (
               <button
                 key={item.serviceId}
@@ -102,7 +98,7 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
                   navigate(item.page, item.serviceId);
                   setOpen(false);
                 }}
-                className="rounded-md px-3 py-2 text-left text-[13px] text-white/70 transition-colors hover:text-white"
+                className="rounded-md px-3 py-2 text-left text-[13px] text-brand-grey transition-colors hover:text-brand-navy"
               >
                 {item.label}
               </button>
@@ -116,8 +112,6 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
   const isActive = currentPage === 'services' || currentPage === 'service-detail';
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <div
       className="relative"
       onMouseEnter={handleMouseEnter}
@@ -128,12 +122,12 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
         className={`flex items-center gap-1 rounded-md px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 ${
           isActive
             ? 'text-brand-gold'
-            : 'text-white hover:text-brand-gold'
+            : 'text-brand-navy hover:text-brand-gold'
         }`}
       >
         Services
         <ChevronDown
-          className={`size-3 text-white/70 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          className={`size-3 text-brand-grey transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -152,7 +146,7 @@ function ServicesDropdown({ isMobile = false }: { isMobile?: boolean }) {
                 navigate(item.page, item.serviceId);
                 setOpen(false);
               }}
-              className="flex w-full items-center px-4 py-2.5 text-left text-[13px] text-white transition-colors hover:bg-white/10 hover:text-brand-gold"
+              className="flex w-full items-center px-4 py-2.5 text-left text-[13px] text-brand-navy transition-colors hover:bg-brand-grey-pale hover:text-brand-gold"
             >
               {item.label}
             </button>
@@ -168,8 +162,6 @@ function DesktopNav() {
   const currentPage = useNavigationStore((s) => s.currentPage);
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main navigation">
       {navLinks.map((link) => {
         if (link.page === 'services') {
@@ -179,15 +171,13 @@ function DesktopNav() {
         const isActive = currentPage === link.page;
 
         return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
           <button
             key={link.page}
             onClick={() => navigate(link.page)}
             className={`relative rounded-md px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 ${
               isActive
                 ? 'text-brand-gold'
-                : 'text-white hover:text-brand-gold'
+                : 'text-brand-navy hover:text-brand-gold'
             }`}
           >
             {link.label}
@@ -208,8 +198,6 @@ function MobileNav({ onClose }: { onClose: () => void }) {
   };
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <nav className="flex flex-col gap-0.5 px-3 py-4" aria-label="Mobile navigation">
       {navLinks.map((link) => {
         if (link.page === 'services') {
@@ -219,15 +207,13 @@ function MobileNav({ onClose }: { onClose: () => void }) {
         const isActive = currentPage === link.page;
 
         return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
           <button
             key={link.page}
             onClick={() => handleNavigate(link.page)}
             className={`rounded-md px-3 py-2.5 text-left text-[13px] font-medium transition-colors ${
               isActive
                 ? 'text-brand-gold'
-                : 'text-white hover:text-brand-gold'
+                : 'text-brand-navy hover:text-brand-gold'
             }`}
           >
             {link.label}
@@ -257,14 +243,10 @@ export default function Navbar() {
       setScrolled(window.scrollY > 8);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-) => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-  <header className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-
     <header
       className={`sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md transition-all duration-300 ${
         scrolled
@@ -290,7 +272,7 @@ export default function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="lg:hidden text-white hover:bg-white/10"
+                className="lg:hidden text-brand-navy hover:bg-brand-grey-pale"
                 aria-label="Open navigation menu"
               >
                 <Menu className="size-5" />
@@ -306,7 +288,7 @@ export default function Navbar() {
                     height={32}
                     className="size-8 object-contain"
                   />
-                  <SheetTitle className="text-left text-[15px] font-bold tracking-[-0.02em] text-white">
+                  <SheetTitle className="text-left text-[15px] font-bold tracking-[-0.02em] text-brand-navy">
                     SALA INVESTMENTS
                   </SheetTitle>
                 </div>
@@ -317,6 +299,5 @@ export default function Navbar() {
         </div>
       </div>
     </header>
-  )
->redaeh/<  ;
+  );
 }

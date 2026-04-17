@@ -59,3 +59,51 @@ canvas {
     padding-right: 16px;
   }
 }
+
+/* Sala Design System */
+.sala-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.sala-section {
+  padding: 80px 0;
+}
+
+.sala-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0B1D35;
+}
+
+.sala-hero-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+}
+
+.sala-btn-primary {
+  background: #C8A75B;
+  color: #0B1D35;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sala-btn-secondary {
+  border: 1px solid white;
+  color: white;
+  border-radius: 8px;
+}
+
+.sala-stat-card {
+  text-align: center;
+}
+
+.sala-gold-line {
+  width: 40px;
+  height: 2px;
+  background: #C8A75B;
+}
