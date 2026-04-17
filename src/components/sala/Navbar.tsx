@@ -2,195 +2,103 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
-type NavLink = {
-  label: string;
-  href: string;
-};
-
-const services: NavLink[] = [
-  { label: "Strategic Advisory", href: "#services" },
-  { label: "Market Entry", href: "#services" },
-  { label: "Investment Structuring", href: "#services" },
-  { label: "Project Execution", href: "#services" },
+const services = [
+  "Strategic Advisory",
+  "Market Entry",
+  "Investment Structuring",
+  "Execution Support",
 ];
-
-const mainLinks: NavLink[] = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Sectors", href: "#sectors" },
-  { label: "Insights", href: "#insights" },
-  { label: "Contact", href: "#contact" },
-];
-
-function NavItem({
-  href,
-  label,
-  onClick,
-}: {
-  href: string;
-  label: string;
-  onClick?: () => void;
-}) {
-  return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className="text-sm font-medium text-neutral-800 transition hover:text-black"
-    >
-      {label}
-    </Link>
-  );
-}
-
-function ServicesDropdown({
-  isMobile = false,
-  onNavigate,
-}: {
-  isMobile?: boolean;
-  onNavigate?: () => void;
-}) {
-  const [open, setOpen] = useState(false);
-
-  if (isMobile) {
-    return (
-      <div className="w-full">
-        <button
-          type="button"
-          onClick={() => setOpen((prev) => !prev)}
-          className="flex w-full items-center justify-between rounded-xl border border-neutral-200 px-4 py-3 text-left text-sm font-medium text-neutral-900"
-        >
-          <span>Services</span>
-          <ChevronDown
-            className={`h-4 w-4 transition ${open ? "rotate-180" : ""}`}
-          />
-        </button>
-
-        {open && (
-          <div className="mt-2 space-y-2 rounded-xl bg-neutral-50 p-3">
-            {services.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={onNavigate}
-                className="block rounded-lg px-3 py-2 text-sm text-neutral-700 transition hover:bg-white hover:text-black"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <button
-        type="button"
-        className="flex items-center gap-1 text-sm font-medium text-neutral-800 transition hover:text-black"
-      >
-        <span>Services</span>
-        <ChevronDown className="h-4 w-4" />
-      </button>
-
-      {open && (
-        <div className="absolute left-0 top-full z-50 mt-3 w-64 rounded-2xl border border-neutral-200 bg-white p-3 shadow-xl">
-          <div className="space-y-1">
-            {services.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="block rounded-xl px-3 py-2 text-sm text-neutral-700 transition hover:bg-neutral-50 hover:text-black"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const closeMobile = () => setMobileOpen(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-        <Link href="#home" className="text-lg font-semibold tracking-tight text-black">
+        <Link href="/" className="text-xl font-semibold tracking-[0.18em] text-white uppercase">
           Sala Investments
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {mainLinks.slice(0, 3).map((item) => (
-            <NavItem key={item.label} href={item.href} label={item.label} />
-          ))}
+          <Link href="#about" className="text-sm text-white/80 transition hover:text-white">
+            About
+          </Link>
 
-          <ServicesDropdown />
+          <div
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+          >
+            <button
+              type="button"
+              className="flex items-center gap-1 text-sm text-white/80 transition hover:text-white"
+            >
+              Services
+              <ChevronDown className="h-4 w-4" />
+            </button>
 
-          {mainLinks.slice(3).map((item) => (
-            <NavItem key={item.label} href={item.href} label={item.label} />
-          ))}
+            {servicesOpen && (
+              <div className="absolute left-0 top-full mt-3 w-64 rounded-2xl border border-white/10 bg-neutral-950 p-3 shadow-2xl">
+                {services.map((service) => (
+                  <a
+                    key={service}
+                    href="#services"
+                    className="block rounded-xl px-3 py-2 text-sm text-white/75 transition hover:bg-white/5 hover:text-white"
+                  >
+                    {service}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link href="#sectors" className="text-sm text-white/80 transition hover:text-white">
+            Sectors
+          </Link>
+          <Link href="#insights" className="text-sm text-white/80 transition hover:text-white">
+            Insights
+          </Link>
+          <Link href="#contact" className="text-sm text-white/80 transition hover:text-white">
+            Contact
+          </Link>
         </nav>
 
         <div className="hidden md:block">
-          <Link
+          <a
             href="#contact"
-            className="rounded-full bg-black px-5 py-3 text-sm font-medium text-white transition hover:opacity-90"
+            className="rounded-full border border-amber-400/40 bg-amber-400 px-5 py-3 text-sm font-medium text-black transition hover:opacity-90"
           >
             Book Consultation
-          </Link>
+          </a>
         </div>
 
         <button
           type="button"
-          aria-label="Toggle navigation"
+          aria-label="Toggle menu"
           onClick={() => setMobileOpen((prev) => !prev)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white md:hidden"
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-neutral-200 bg-white md:hidden">
-          <div className="mx-auto max-w-7xl space-y-3 px-6 py-4">
-            {mainLinks.slice(0, 3).map((item) => (
-              <NavItem
-                key={item.label}
-                href={item.href}
-                label={item.label}
-                onClick={closeMobile}
-              />
-            ))}
-
-            <ServicesDropdown isMobile onNavigate={closeMobile} />
-
-            {mainLinks.slice(3).map((item) => (
-              <NavItem
-                key={item.label}
-                href={item.href}
-                label={item.label}
-                onClick={closeMobile}
-              />
-            ))}
-
-            <Link
+        <div className="border-t border-white/10 bg-black md:hidden">
+          <div className="space-y-3 px-6 py-4">
+            <a href="#about" className="block text-sm text-white/80">About</a>
+            <a href="#services" className="block text-sm text-white/80">Services</a>
+            <a href="#sectors" className="block text-sm text-white/80">Sectors</a>
+            <a href="#insights" className="block text-sm text-white/80">Insights</a>
+            <a href="#contact" className="block text-sm text-white/80">Contact</a>
+            <a
               href="#contact"
-              onClick={closeMobile}
-              className="block rounded-full bg-black px-5 py-3 text-center text-sm font-medium text-white transition hover:opacity-90"
+              className="block rounded-full bg-amber-400 px-5 py-3 text-center text-sm font-medium text-black"
             >
               Book Consultation
-            </Link>
+            </a>
           </div>
         </div>
       )}
